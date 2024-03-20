@@ -111,23 +111,7 @@
                   }
                 }
               },
-              "controlConfiguration": {
-                "@com.sap.vocabularies.UI.v1.LineItem": {
-                  "tableSettings": {
-                    "type": "ResponsiveTable",
-                    "personalization": {
-                      "sort": true,
-                      "filter": true,
-                      "group": true
-                    },
-                    "quickVariantSelection": {
-                      "showCounts": true,
-                      "hideTableTitle": false
-                    },
-                    "condensedTableLayout": false
-                  }
-                }
-              }
+              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView"
             }
           }
         },
@@ -146,6 +130,15 @@
               },
               "navigation": {}
             }
+          }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ListReport.ListReportController": {
+            "controllerName": "project1.ext.fragment.AddBooksDialog"
           }
         }
       }

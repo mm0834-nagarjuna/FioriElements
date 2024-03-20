@@ -45,9 +45,27 @@ annotate CatalogService.Books with @(
     ],
 );
 
+//listPage Table view
+annotate CatalogService.Books with @(
+    UI.SelectionPresentationVariant #tableView : {
+        $Type : 'UI.SelectionPresentationVariantType',
+        PresentationVariant : {
+            $Type : 'UI.PresentationVariantType',
+            Visualizations : [
+                '@UI.LineItem',
+            ],
+        },
+        SelectionVariant : {
+            $Type : 'UI.SelectionVariantType',
+            SelectOptions : [
+            ],
+        },
+        Text : 'Table View',
+    }
+);
 
 
-
+//ListPage ParameterInOut Filter
 annotate CatalogService.Books{
    authorName @Common.ValueList: {
         Label : 'Author',
@@ -68,32 +86,6 @@ annotate CatalogService.Books{
     };
     
 };
-
-
-
-
-
-// annotate CatalogService.Books with {
-//     genre @(Common : { 
-//          Label  : 'Connected Entity',
-//          Text : genre,
-//          TextArrangement : #TextOnly,
-//          ValueListWithFixedValues,
-//          ValueList : {
-//              $Type : 'Common.ValueListType',
-//              CollectionPath : genre,
-//              Parameters : [
-//               {
-//                   @Type : 'Common.ValueListParameterInOut',
-//               }
-
-//              ]
-//          },
-//      },)
-// } ;
-
-
-
 
 
 //objectPage FieldGroup
@@ -183,6 +175,11 @@ annotate CatalogService.Books with @(
         Value : stock,
         TargetValue : 100,
     },
+     UI.DataPoint #price1 : {
+        Value : price,
+        MinimumValue : 0,
+        MaximumValue : 100,
+    },
     UI.HeaderFacets : [
         {
             $Type : 'UI.ReferenceFacet',
@@ -218,80 +215,8 @@ annotate CatalogService.Books with @(
                 Measure : stock,
             },
         ],
-    }
-);
-
-
-annotate CatalogService.Authors with @(
-    UI.DataPoint #authorId : {
-        Value : authorId,
     },
-    UI.Chart #authorId : {
-        ChartType : #Line,
-        Title : 'authorId',
-        Measures : [
-            authorId,
-        ],
-        MeasureAttributes : [
-            {
-                DataPoint : '@UI.DataPoint#authorId',
-                Role : #Axis1,
-                Measure : authorId,
-            },
-        ],
-        Dimensions : [
-            authorId,
-        ],
-    }
-);
-annotate CatalogService.Books with @(
-    UI.DataPoint #price : {
-        Value : price,
-        TargetValue : price,
-    },
-    UI.Chart #price : {
-        ChartType : #Donut,
-        Title : 'price',
-        Measures : [
-            price,
-        ],
-        MeasureAttributes : [
-            {
-                DataPoint : '@UI.DataPoint#price',
-                Role : #Axis1,
-                Measure : price,
-            },
-        ],
-    }
-);
-annotate CatalogService.Books with @(
-    UI.DataPoint #rating1 : {
-        Value : rating,
-        MinimumValue : 0,
-        MaximumValue : 5,
-    },
-    UI.Chart #rating : {
-        ChartType : #Bullet,
-        Title : 'rating',
-        Measures : [
-            rating,
-        ],
-        MeasureAttributes : [
-            {
-                DataPoint : '@UI.DataPoint#rating1',
-                Role : #Axis1,
-                Measure : rating,
-            },
-        ],
-    }
-);
-annotate CatalogService.Books with @(
-    UI.DataPoint #price1 : {
-        Value : price,
-        MinimumValue : 0,
-        MaximumValue : 100,
-    },
-    UI.Chart #price1 : {
+     UI.Chart #price1 : {
         ChartType : #Bullet,
         Title : 'price',
         Measures : [
@@ -306,49 +231,8 @@ annotate CatalogService.Books with @(
         ],
     }
 );
-annotate CatalogService.Authors with @(
-    UI.Facets : [
-        {
-            $Type : 'UI.ReferenceFacet',
-            Label : 'Author Details',
-            ID : 'AuthorDetails',
-            Target : '@UI.FieldGroup#AuthorDetails',
-        },
-    ],
-    UI.FieldGroup #AuthorDetails : {
-        $Type : 'UI.FieldGroupType',
-        Data : [
-            {
-                $Type : 'UI.DataField',
-                Value : authorName,
-                Label : 'authorName',
-            },{
-                $Type : 'UI.DataField',
-                Value : authorEmail,
-                Label : 'authorEmail',
-            },{
-                $Type : 'UI.DataField',
-                Value : authorCountry,
-                Label : 'authorCountry',
-            },{
-                $Type : 'UI.DataField',
-                Value : authorBooks.title,
-                Label : 'title',
-            },{
-                $Type : 'UI.DataField',
-                Value : authorBooks.publicationDate,
-                Label : 'publicationDate',
-            },{
-                $Type : 'UI.DataField',
-                Value : authorBooks.genre,
-                Label : 'genre',
-            },{
-                $Type : 'UI.DataField',
-                Value : authorBooks.language,
-                Label : 'language',
-            },],
-    }
-);
+
+//objectPage AuthorDetails Section
 annotate CatalogService.Books with @(
     UI.Identification : [
         {
@@ -365,3 +249,6 @@ annotate CatalogService.Books with @(
             Label : 'authorCountry',
         },]
 );
+
+
+
