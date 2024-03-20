@@ -1,0 +1,175 @@
+_schema-version: "3.1"
+ID: FioriElements
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: FioriElements-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: FioriElements-auth
+  - name: FioriElements-db
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+  build-parameters:
+    builder: npm
+- name: FioriElements-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: FioriElements-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: FioriElements
+  type: approuter.nodejs
+  path: app/router
+  requires:
+  - name: srv-api
+    group: destinations
+    properties:
+      forwardAuthToken: true
+      name: srv-api
+      url: ~{srv-url}
+  - name: FioriElements-auth
+  - name: FioriElements-destination-service
+    group: destinations
+    properties:
+      forwardAuthToken: false
+      name: ui5
+      url: https://ui5.sap.com
+  parameters:
+    disk-quota: 256M
+    keep-existing-routes: true
+    memory: 256M
+- name: FioriElements-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: FioriElements-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - listreportpag.zip
+      name: listreportpag
+      target-path: resources/
+    - artifacts:
+      - listreportbooks.zip
+      name: listreportbooks
+      target-path: resources/
+    - artifacts:
+      - project1.zip
+      name: project1
+      target-path: resources/
+    - artifacts:
+      - northwindcustomers.zip
+      name: northwindcustomers
+      target-path: resources/
+    - artifacts:
+      - customers.zip
+      name: customers
+      target-path: resources/
+- name: listreportpag
+  type: html5
+  path: app/listreportpag
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: listreportbooks
+  type: html5
+  path: app/listreportbooks
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: project1
+  type: html5
+  path: app/project1
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: northwindcustomers
+  type: html5
+  path: northwindcustomers
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: customers
+  type: html5
+  path: app/customers
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: FioriElements-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: FioriElements-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+- name: FioriElements-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: FioriElements-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: FioriElements-html5-srv
+    service-plan: app-host
+- name: FioriElements-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: FioriElements-destination-service
+    service-plan: lite
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production

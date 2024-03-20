@@ -1,0 +1,32 @@
+###
+GET http://localhost:4004/odata/v4/catalog/Books
+
+###
+
+POST  http://localhost:4004/odata/v4/catalog/Authors
+Content-Type: application/json
+
+{
+     "authorId": 4,
+    "authorName": "F. Scott Fitzgerald",
+      "authorEmail": "f.scottfizgerald@author.com",
+      "authorCountry": "USSR"
+}
+###
+
+
+PATCH     http://localhost:4004/odata/v4/catalog/Books(5)
+Content-Type: application/json
+
+{
+ "ID": 5,
+    "title": "The Great HillStation",
+    "stock": 20,
+    "authorName": "F. Scott Fitzgerald",
+    "price": 11,
+    "publicationDate": "April 10, 1925",
+    "genre": "Dystopian fiction",
+    "language": "English",
+    "rating": 1
+}
+###
