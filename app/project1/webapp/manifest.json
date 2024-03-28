@@ -111,7 +111,20 @@
                   }
                 }
               },
-              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView"
+              "views": {
+                "paths": [
+                  {
+                    "key": "tableView",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView"
+                  },
+                  {
+                    "key": "tableView1",
+                    "annotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#tableView",
+                    "entitySet": "Authors"
+                  }
+                ],
+                "showCounts": true
+              }
             }
           }
         },
@@ -128,17 +141,20 @@
                   "sections": {}
                 }
               },
-              "navigation": {}
+              "controlConfiguration": {
+                "authorDetails/@com.sap.vocabularies.UI.v1.LineItem#Authors": {
+                  "actions": {
+                    "addAuthor": {
+                      "press": "project1.ext.controller.AddAuthorsController.onAdd",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "ADD"
+                    }
+                  }
+                }
+              }
             }
-          }
-        }
-      }
-    },
-    "extends": {
-      "extensions": {
-        "sap.ui.controllerExtensions": {
-          "sap.fe.templates.ListReport.ListReportController": {
-            "controllerName": "project1.ext.fragment.AddBooksDialog"
           }
         }
       }

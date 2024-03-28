@@ -1,0 +1,12 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros">
+	
+
+	<Dialog 
+
+	id="createNode">
+	<Text text="Fragment"></Text>
+	<endButton>
+            <Button core:require="{ handler: 'project1/ext/controller/AddAuthorsController'}" text="close" press="handler.onClose" />
+        </endButton>
+	</Dialog>
+</core:FragmentDefinition>

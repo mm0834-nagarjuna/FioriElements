@@ -1,5 +1,5 @@
 ###
-GET http://localhost:4004/odata/v4/catalog/Books
+GET http://localhost:4004/odata/v4/catalog/Books(ID=1)
 
 ###
 
@@ -15,18 +15,46 @@ Content-Type: application/json
 ###
 
 
-PATCH     http://localhost:4004/odata/v4/catalog/Books(5)
+PATCH     http://localhost:4004/odata/v4/catalog/Books(1)
 Content-Type: application/json
 
 {
- "ID": 5,
-    "title": "The Great HillStation",
-    "stock": 20,
-    "authorName": "F. Scott Fitzgerald",
-    "price": 11,
-    "publicationDate": "April 10, 1925",
-    "genre": "Dystopian fiction",
-    "language": "English",
-    "rating": 1
+ 
+"ID": 1,
+"title": "1984",
+"stock": 50,
+"authorName": "George Orwell",
+"price": 10,
+"publicationDate": "June 8, 1949",
+"genre": "Dystopian fiction",
+"language": "English",
+"rating": 4,
+    "isDelatable": true
+}
+###
+
+
+
+POST     http://localhost:4004/odata/v4/catalog/PriceStatistics
+Content-Type: application/json
+
+{
+ 
+  "ID": 2,
+  "bookID": 1,
+  "previousPrice": 10,
+  "newPrice": 20,
+  "priceChangeType": "Increased"
+
+}
+###
+
+
+
+POST     http://localhost:4004/odata/v4/catalog/addBooks
+Content-Type: application/json
+
+{
+"bookID": 6
 }
 ###

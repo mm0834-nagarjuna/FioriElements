@@ -12,6 +12,9 @@ entity Books {
       genre           : String;
       language        : String;
       rating          : Integer;
+      isDelatable     : Boolean;
+      priceDetails    : Composition of many PriceStatistics
+                          on priceDetails.bookID = $self.ID
 }
 
 entity Authors {
@@ -21,4 +24,13 @@ entity Authors {
       authorCountry : String;
       authorBooks   : Composition of many Books
                         on authorBooks.authorName = $self.authorName;
+}
+
+entity PriceStatistics {
+  key ID              : Integer;
+      bookID          : Integer;
+      previousPrice   : Integer;
+      newPrice        : Integer;
+      priceChangeType : String; // This could be "increase" or "decrease"
+      timestamp       : Timestamp  @cds.on.insert: $now  @cds.on.update: $now;
 }
